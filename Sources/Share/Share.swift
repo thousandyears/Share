@@ -24,9 +24,9 @@ extension Share {
 
 extension Share.Service {
     public enum Status {
-        case willShare([Any], via: Share.Service)
-        case didShare([Any], via: Share.Service)
-        case error(Share.Service.Status.Error, sharing:[Any])
+        case willShare(Sharable, via: Share.Service)
+        case didShare(Sharable, via: Share.Service)
+        case error(Share.Service.Status.Error, sharing: Sharable)
     }
 }
 

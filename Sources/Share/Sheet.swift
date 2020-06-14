@@ -19,7 +19,7 @@ extension Share {
             guard service == nil
                 else { return }
             
-            serviceDelegate?.didChange(status: .error(.cancelled(service), sharing: sharable.shareItems))
+            serviceDelegate?.didChange(status: .error(.cancelled(service), sharing: sharable))
         }
         
         public func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, delegateFor sharingService: NSSharingService) -> NSSharingServiceDelegate? {
@@ -29,15 +29,15 @@ extension Share {
         // MARK:- NSSharingServiceDelegate
         
         public func sharingService(_ sharingService: NSSharingService, willShareItems items: [Any]) {
-            serviceDelegate?.didChange(status: .willShare(items, via: sharingService))
+            serviceDelegate?.didChange(status: .willShare(sharable, via: sharingService))
         }
         
         public func sharingService(_ sharingService: NSSharingService, didShareItems items: [Any]) {
-            serviceDelegate?.didChange(status: .didShare(items, via: sharingService))
+            serviceDelegate?.didChange(status: .didShare(sharable, via: sharingService))
         }
         
         public func sharingService(_ sharingService: NSSharingService, didFailToShareItems items: [Any], error: Error) {
-            serviceDelegate?.didChange(status: .error(.other(error, with: sharingService), sharing: items))
+            serviceDelegate?.didChange(status: .error(.other(error, with: sharingService), sharing: sharable))
         }
     }
 }
@@ -66,9 +66,9 @@ extension Share {
                 }
                 
                 if !completed {
-                    self.report(.willShare(sharable.shareItems, via: service))
+                    self.report(.willShare(sharable, via: service))
                 } else {
-                    self.report(.didShare(sharable.shareItems, via: service))
+                    self.report(.didShare(sharable, via: service))
                 }
             }
         }
@@ -78,7 +78,7 @@ extension Share {
         }
         
         private func report(error: Share.Service.Status.Error) {
-            serviceDelegate?.didChange(status: .error(error, sharing: sharable.shareItems))
+            serviceDelegate?.didChange(status: .error(error, sharing: sharable))
         }
     }
 }
