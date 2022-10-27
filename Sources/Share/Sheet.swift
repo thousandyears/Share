@@ -83,3 +83,38 @@ extension Share {
     }
 }
 #endif
+
+#if canImport(SwiftUI)
+import SwiftUI
+
+@available(iOS 13.0, *)
+extension Share.Sheet {
+    
+    public struct View: UIViewControllerRepresentable, ShareDelegate {
+        public typealias Action = ((Share.Service.Status) -> ())
+        
+        let sharable: Sharable
+        
+        var onStatusChange: Action  = { _ in }
+        
+        public func didChange(status: Share.Service.Status) {
+            onStatusChange(status)
+        }
+        
+        public func onStatusChange(_ action: @escaping Action) -> View {
+            View(sharable: sharable, onStatusChange: action)
+        }
+        
+        public func makeUIViewController(context: UIViewControllerRepresentableContext<View>) -> UIActivityViewController {
+            return Share.Sheet(for: sharable, delegate: self)
+        }
+
+        public func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<View>) {}
+    }
+    
+    public func view() -> View {
+        .init(sharable: sharable)
+    }
+}
+
+#endif

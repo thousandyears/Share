@@ -57,22 +57,22 @@ extension Share {
             self.shareValue = shareValue
         }
         
-        public func title(_ title: String) -> Link {
+        public func title(_ title: String?) -> Link {
             self.title = title
             return self
         }
         
-        public func icon(_ url: URL) -> Link {
+        public func icon(_ url: URL?) -> Link {
             icon = url
             return self
         }
         
-        public func image(_ url: URL) -> Link {
+        public func image(_ url: URL?) -> Link {
             self.image = url
             return self
         }
 
-        public func video(_ url: URL) -> Link {
+        public func video(_ url: URL?) -> Link {
             self.video = url
             return self
         }
